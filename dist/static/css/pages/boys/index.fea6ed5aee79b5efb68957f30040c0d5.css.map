@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/pages/boys/index.vue"],"names":[],"mappings":"AACA,uBACE,oBAAsB","file":"static/css/pages/boys/index.fea6ed5aee79b5efb68957f30040c0d5.css","sourcesContent":["\n.boys[data-v-1b84f3ec] {\n  background-color: red;\n}\n\n\n\n// WEBPACK FOOTER //\n// ./src/pages/boys/index.vue"],"sourceRoot":""}
