@@ -8,8 +8,18 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-
+var glob = require('glob')
 var env = config.build.env
+
+var htmls = glob.sync('./src/pages/**/*.html').map(function (item) {
+    return new HtmlWebpackPlugin({
+        filename: './' + item.slice(6),
+        template: item,
+        inject: true,
+        chunks:[item.slice(6, -5),"vendor", "manifest"]
+    });
+});
+
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -49,30 +59,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename:'./pages/boys/index.html',
-      template:'./src/pages/boys/index.html',
-      inject: true,
-      chunks:['pages/boys/index']
-    }),
-    new HtmlWebpackPlugin({
-      filename:'./pages/goods/index.html',
-      template:'./src/pages/goods/index.html',
-      inject: true,
-      chunks:['pages/goods/index']
-    }),
-    new HtmlWebpackPlugin({
-      filename:'./pages/index/index.html',
-      template:'./src/pages/index/index.html',
-      inject: true,
-      chunks:['pages/index/index']
-    }),
-    new HtmlWebpackPlugin({
-      filename:'./pages/sotho/index.html',
-      template:'./src/pages/sotho/index.html',
-      inject: true,
-      chunks:['pages/sotho/index']
-    }),
+
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -101,7 +88,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         ignore: ['.*']
       }
     ])
-  ]
+  ].concat(htmls)
 })
 
 if (config.build.productionGzip) {
